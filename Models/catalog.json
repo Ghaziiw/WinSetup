@@ -1,0 +1,117 @@
+{
+  "categories": [
+    {
+      "name": "Browsers", "kind": "app",
+      "items": [
+        { "name": "Google Chrome",   "id": "Google.Chrome" },
+        { "name": "Mozilla Firefox", "id": "Mozilla.Firefox" },
+        { "name": "Brave",           "id": "Brave.Brave" },
+        { "name": "Opera",           "id": "Opera.Opera" },
+        { "name": "Opera GX",        "id": "Opera.OperaGX" }
+      ]
+    },
+    {
+      "name": "Development", "kind": "app",
+      "items": [
+        { "name": "Visual Studio Code",         "id": "Microsoft.VisualStudioCode" },
+        { "name": "Visual Studio Community",    "id": "Microsoft.VisualStudio.2022.Community", "description": "Installs the VS installer; pick workloads afterwards. Run 'winget search Visual Studio' to check for a newer edition." },
+        { "name": "Node.js (LTS)",              "id": "OpenJS.NodeJS.LTS" },
+        { "name": "Git",                        "id": "Git.Git" },
+        { "name": "Python 3",                   "id": "Python.Python.3.14" },
+        { "name": ".NET SDK",                   "id": "Microsoft.DotNet.SDK.10" },
+        { "name": "Java JDK 21 (Temurin)",      "id": "EclipseAdoptium.Temurin.21.JDK" },
+        { "name": "Visual C++ Redistributable", "id": "Microsoft.VCRedist.2015+.x64" },
+        { "name": "PowerToys",                  "id": "Microsoft.PowerToys" }
+      ]
+    },
+    {
+      "name": "Gaming & Social", "kind": "app",
+      "items": [
+        { "name": "Steam",                 "id": "Valve.Steam" },
+        { "name": "Epic Games Launcher",   "id": "EpicGames.EpicGamesLauncher" },
+        { "name": "NVIDIA App (successor of GeForce Experience)", "id": "Nvidia.NvidiaApp", "description": "NVIDIA retired GeForce Experience; the NVIDIA App replaces it." },
+        { "name": "Discord",               "id": "Discord.Discord" },
+        { "name": "Spotify",               "id": "Spotify.Spotify" },
+        { "name": "Lively Wallpaper",      "id": "rocksdanister.LivelyWallpaper" },
+        { "name": "TranslucentTB",         "id": "CharlesMilette.TranslucentTB", "description": "Transparent taskbar" }
+      ]
+    },
+    {
+      "name": "Media & Creation", "kind": "app",
+      "items": [
+        { "name": "DaVinci Resolve",  "id": "BlackmagicDesign.DaVinciResolve" },
+        { "name": "CapCut",           "id": "ByteDance.CapCut" },
+        { "name": "VLC media player", "id": "VideoLAN.VLC" },
+        { "name": "EarTrumpet",       "id": "File-New-Project.EarTrumpet" }
+      ]
+    },
+    {
+      "name": "Utilities & System", "kind": "app",
+      "items": [
+        { "name": "7-Zip", "id": "7zip.7zip",
+          "github": { "repo": "ip7z/7zip", "assetPattern": "^7z\\d+-x64\\.exe$", "silentArgs": "/S" },
+          "description": "Falls back to the latest GitHub release if winget fails" },
+        { "name": "Revo Uninstaller", "id": "RevoUninstaller.RevoUninstaller" },
+        { "name": "HWiNFO",           "id": "REALiX.HWiNFO" },
+        { "name": "HWMonitor",        "id": "CPUID.HWMonitor" },
+        { "name": "MSI Afterburner",  "id": "Guru3D.Afterburner" },
+        { "name": "ShareX",           "id": "ShareX.ShareX" },
+        { "name": "Bitwarden",        "id": "Bitwarden.Bitwarden" },
+        { "name": "qBittorrent",      "id": "qBittorrent.qBittorrent", "description": "Ad-free alternative to uTorrent" }
+      ]
+    },
+    {
+      "name": "Productivity & Comm", "kind": "app",
+      "items": [
+        { "name": "WhatsApp", "id": "WhatsApp.WhatsApp" },
+        { "name": "Notion",   "id": "Notion.Notion" },
+        { "name": "Obsidian", "id": "Obsidian.Obsidian" }
+      ]
+    },
+    {
+      "name": "De-bloat (remove Windows apps)", "kind": "debloat",
+      "items": [
+        { "name": "News",                       "id": "Microsoft.BingNews", "default": true },
+        { "name": "Weather",                    "id": "Microsoft.BingWeather", "default": true },
+        { "name": "Bing Search app",            "id": "Microsoft.BingSearch", "default": true },
+        { "name": "Get Help",                   "id": "Microsoft.GetHelp", "default": true },
+        { "name": "Tips (Get Started)",         "id": "Microsoft.Getstarted", "default": true },
+        { "name": "Microsoft 365 hub (Office)", "id": "Microsoft.MicrosoftOfficeHub", "default": true },
+        { "name": "Solitaire Collection",       "id": "Microsoft.MicrosoftSolitaireCollection", "default": true },
+        { "name": "Feedback Hub",               "id": "Microsoft.WindowsFeedbackHub", "default": true },
+        { "name": "Phone Link",                 "id": "Microsoft.YourPhone", "default": true },
+        { "name": "Clipchamp",                  "id": "Clipchamp.Clipchamp", "default": true },
+        { "name": "Teams (consumer)",           "id": "MicrosoftTeams;MSTeams", "default": true },
+        { "name": "People",                     "id": "Microsoft.People", "default": true },
+        { "name": "Cortana",                    "id": "Microsoft.549981C3F5F10", "default": true },
+        { "name": "Mixed Reality Portal",       "id": "Microsoft.MixedReality.Portal", "default": true },
+        { "name": "3D Viewer / Print 3D",       "id": "Microsoft.Microsoft3DViewer;Microsoft.Print3D", "default": true },
+        { "name": "Skype",                      "id": "Microsoft.SkypeApp", "default": true },
+        { "name": "Copilot app",                "id": "Microsoft.Copilot;Microsoft.Windows.Ai.Copilot.Provider", "default": true },
+        { "name": "Dev Home",                   "id": "Microsoft.Windows.DevHome", "default": true },
+        { "name": "Pre-installed games & promos (Candy Crush...)", "id": "king.com.*;*CandyCrush*;*FarmVille*;*BubbleWitch*", "default": true },
+        { "name": "Pre-installed social/streaming (TikTok, Facebook, Instagram, Disney+, Netflix, Prime)", "id": "*TikTok*;*Facebook*;*Instagram*;*Disney*;*Netflix*;Amazon.com.Amazon;*PrimeVideo*", "default": true },
+        { "name": "Microsoft To Do",            "id": "Microsoft.Todos" },
+        { "name": "Power Automate",             "id": "Microsoft.PowerAutomateDesktop" },
+        { "name": "Mail & Calendar (legacy)",   "id": "microsoft.windowscommunicationsapps" },
+        { "name": "New Outlook",                "id": "Microsoft.OutlookForWindows" },
+        { "name": "Media Player / Movies & TV", "id": "Microsoft.ZuneMusic;Microsoft.ZuneVideo" }
+      ]
+    },
+    {
+      "name": "Privacy & Performance Tweaks", "kind": "tweak",
+      "items": [
+        { "name": "Create a restore point first",                    "id": "restore-point",      "default": true },
+        { "name": "Telemetry: minimum level, no feedback prompts",   "id": "telemetry-policy",   "default": true, "description": "Sets the DataCollection policy. On Home/Pro, Windows keeps a floor of 'Required' data." },
+        { "name": "Telemetry: disable DiagTrack & dmwappushservice", "id": "telemetry-services", "default": true },
+        { "name": "Telemetry: disable compatibility/CEIP tasks",     "id": "telemetry-tasks",    "default": true },
+        { "name": "Disable advertising ID",                          "id": "advertising-id",     "default": true },
+        { "name": "Disable consumer features (suggested apps)",      "id": "consumer-features",  "default": true },
+        { "name": "Disable activity history / timeline",             "id": "activity-history",   "default": true },
+        { "name": "Disable Bing results in Start search",            "id": "bing-search",        "default": true },
+        { "name": "Disable Windows Error Reporting",                 "id": "error-reporting",    "default": true },
+        { "name": "Disable Copilot & Recall (policy)",               "id": "copilot-recall",     "default": true }
+      ]
+    }
+  ]
+}

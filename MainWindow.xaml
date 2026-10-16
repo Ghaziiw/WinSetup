@@ -1,0 +1,125 @@
+<Window x:Class="WinSetup.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="WinSetup - post-install automation"
+        Width="1200" Height="840" MinWidth="900" MinHeight="620"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource Bg}" Foreground="{StaticResource Fg}"
+        FontFamily="Segoe UI" FontSize="13">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="170"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="WinSetup" FontSize="26" FontWeight="SemiBold"/>
+            <TextBlock Foreground="{StaticResource Muted}" Margin="0,2,0,0"
+                       Text="Tick what to install, remove or tweak, then press Start. Latest versions are resolved at runtime through winget."/>
+        </StackPanel>
+
+        <!-- Categories -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,16,0,0">
+            <ItemsControl ItemsSource="{Binding Categories}" IsEnabled="{Binding IsIdle}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Width="370" Margin="0,0,14,14" Padding="14"
+                                Background="{StaticResource Card}" BorderBrush="{StaticResource Line}"
+                                BorderThickness="1" CornerRadius="10">
+                            <StackPanel>
+                                <Grid>
+                                    <TextBlock Text="{Binding Name}" FontSize="15" FontWeight="SemiBold"
+                                               VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,110,0"/>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <Button Content="All"  Style="{StaticResource LinkButton}" Command="{Binding SelectAllCommand}"/>
+                                        <Button Content="None" Style="{StaticResource LinkButton}" Command="{Binding DeselectAllCommand}"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <ItemsControl ItemsSource="{Binding Items}" Margin="0,8,0,0">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="0,3">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <CheckBox IsChecked="{Binding IsSelected}" ToolTip="{Binding Description}"
+                                                          Foreground="{StaticResource Fg}" VerticalContentAlignment="Center">
+                                                    <TextBlock Text="{Binding Name}" TextWrapping="Wrap"/>
+                                                </CheckBox>
+
+                                                <TextBlock Grid.Column="1" Text="{Binding StatusText}" FontSize="11"
+                                                           Margin="8,0,0,0" VerticalAlignment="Center"
+                                                           ToolTip="{Binding Detail}">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Foreground" Value="{StaticResource Muted}"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding State}" Value="Running">
+                                                                    <Setter Property="Foreground" Value="{StaticResource Accent}"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding State}" Value="Succeeded">
+                                                                    <Setter Property="Foreground" Value="{StaticResource Ok}"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding State}" Value="Failed">
+                                                                    <Setter Property="Foreground" Value="{StaticResource Err}"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <!-- Progress + buttons -->
+        <Grid Grid.Row="2" Margin="0,6,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,20,0">
+                <TextBlock Text="{Binding ProgressText}" Foreground="{StaticResource Muted}" Margin="0,0,0,4"/>
+                <ProgressBar Minimum="0" Maximum="100" Height="10" Value="{Binding Progress}"
+                             Foreground="{StaticResource Accent}" Background="{StaticResource Line}" BorderThickness="0"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Button Content="Cancel" Style="{StaticResource SecondaryButton}" Command="{Binding CancelCommand}" Margin="0,0,10,0"/>
+                <Button Content="Start"  Style="{StaticResource PrimaryButton}"   Command="{Binding StartCommand}"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Live log -->
+        <ListBox x:Name="LogList" Grid.Row="3" ItemsSource="{Binding LogLines}"
+                 Background="{StaticResource Card}" Foreground="{StaticResource Muted}"
+                 BorderBrush="{StaticResource Line}" FontFamily="Consolas" FontSize="11"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" TextWrapping="Wrap"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</Window>
