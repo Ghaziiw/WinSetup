@@ -1,7 +1,15 @@
 # WinSetup - post-install automation for Windows
 
+[![Download Latest Release](https://img.shields.io/github/v/release/Ghaziiw/WinSetup?label=Download%20Latest%20Release&color=2ea44f)](https://github.com/Ghaziiw/WinSetup/releases/latest)
+[![Platform](https://img.shields.io/badge/platform-Windows%20x64-blue.svg)](https://github.com/Ghaziiw/WinSetup)
+
 C# / WPF (.NET 10) app that, on a fresh Windows install, installs your software through **winget**
 (always the newest version), removes pre-installed Windows apps and applies privacy tweaks.
+
+## Quick Start (No SDK or .NET runtime needed)
+1. Download **`WinSetup-win-x64.zip`** from the **[Latest Release](https://github.com/Ghaziiw/WinSetup/releases/latest)**.
+2. Extract the `.zip` folder (ensure `WinSetup.exe` and `Assets/` stay together).
+3. Run `WinSetup.exe` (accept the UAC administrator prompt).
 
 ## Why WPF (and not WinUI 3 / PowerShell)
 * Needs admin rights -> WPF handles `requireAdministrator` cleanly; packaged WinUI 3 apps do not.
@@ -28,7 +36,9 @@ WinSetup/
  tools/Validate-Catalog.ps1  verifies every winget id in the catalog
 ```
 
-## Build and run (step by step)
+## Build from source
+
+### 1. Run in development
 1. Install the .NET 10 SDK:  `winget install Microsoft.DotNet.SDK.10`
    (If you only have an older SDK, change `net10.0-windows` in `WinSetup.csproj` to match.)
 2. Open a terminal in the `WinSetup` folder and check the catalog ids (optional but recommended):
@@ -36,12 +46,19 @@ WinSetup/
 3. Run: `dotnet run`  -> Windows shows the UAC prompt, then the window opens.
    *In Visual Studio: open `WinSetup.csproj`, but start Visual Studio itself "as administrator", otherwise debugging fails with "requires elevation".*
 
-## Make a single .exe for a fresh PC
+### 2. Make a self-contained portable package locally
+```powershell
+dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ./dist
+Compress-Archive -Path ./dist/* -DestinationPath ./WinSetup-win-x64.zip
 ```
-dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
+*(Self-contained means target PCs do not need .NET installed. Copy the `.zip` or the extracted folder to a USB stick.)*
+
+### 3. Automated GitHub Release
+Pushing a version tag triggers GitHub Actions to build and publish the release automatically:
+```powershell
+git tag v1.0.0
+git push origin v1.0.0
 ```
-Output: `bin\Release\net10.0-windows\win-x64\publish\` - copy **WinSetup.exe and the Assets folder** to a USB stick.
-(Self-contained means the target PC does not need .NET installed.)
 
 ## How "latest version" works
 `winget install --id <id> --exact` always installs the newest version in the winget community repo.

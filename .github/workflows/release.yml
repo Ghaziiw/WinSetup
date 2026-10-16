@@ -1,0 +1,48 @@
+name: Release Build
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Release tag name (e.g., v1.0.0)'
+        required: false
+        default: 'manual-build'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Publish Single-File Executable
+        run: |
+          dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ./dist
+
+      - name: Package Release Archive (.zip)
+        shell: pwsh
+        run: |
+          # Remove debug symbols to keep release zip lean
+          Remove-Item -Path ./dist/*.pdb -Force -ErrorAction SilentlyContinue
+          # Archive WinSetup.exe and Assets folder
+          Compress-Archive -Path ./dist/* -DestinationPath ./WinSetup-win-x64.zip
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag_name || github.ref_name }}
+          name: WinSetup ${{ github.event.inputs.tag_name || github.ref_name }}
+          files: WinSetup-win-x64.zip
+          generate_release_notes: true
