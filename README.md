@@ -36,9 +36,7 @@ WinSetup/
  tools/Validate-Catalog.ps1  verifies every winget id in the catalog
 ```
 
-## Build from source
-
-### 1. Run in development
+## Build and run (step by step)
 1. Install the .NET 10 SDK:  `winget install Microsoft.DotNet.SDK.10`
    (If you only have an older SDK, change `net10.0-windows` in `WinSetup.csproj` to match.)
 2. Open a terminal in the `WinSetup` folder and check the catalog ids (optional but recommended):
@@ -46,15 +44,15 @@ WinSetup/
 3. Run: `dotnet run`  -> Windows shows the UAC prompt, then the window opens.
    *In Visual Studio: open `WinSetup.csproj`, but start Visual Studio itself "as administrator", otherwise debugging fails with "requires elevation".*
 
-### 2. Make a self-contained portable package locally
-```powershell
-dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ./dist
-Compress-Archive -Path ./dist/* -DestinationPath ./WinSetup-win-x64.zip
+## Make a single .exe for a fresh PC
 ```
-*(Self-contained means target PCs do not need .NET installed. Copy the `.zip` or the extracted folder to a USB stick.)*
+dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
+```
+Output: `bin\Release\net10.0-windows\win-x64\publish\` - copy **WinSetup.exe and the Assets folder** to a USB stick.
+(Self-contained means the target PC does not need .NET installed.)
 
-### 3. Automated GitHub Release
-Pushing a version tag triggers GitHub Actions to build and publish the release automatically:
+### Automated GitHub Release (CI/CD)
+Pushing a version tag triggers the GitHub Actions workflow to build and publish the release automatically:
 ```powershell
 git tag v1.0.0
 git push origin v1.0.0
